@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVENIR — AI Career Navigator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <img class="brand-logo" src="avenir-logo.jpeg" alt="AVENIR">
+      <span class="brand-name">AVENIR</span>
+      <span class="tagline">your career navigator</span>
+    </div>
+    <div class="mode-badge" id="modeBadge" title="Rendering engine">checking…</div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- ================= STEP 1 : PROFILE ================= -->
+  <section class="card" id="profileSection">
+    <div class="card-head">
+      <h2>Tell us about yourself</h2>
+      <p class="muted">Your profile powers everything — recommendations, skill gaps, and your personal roadmap.</p>
+      <button class="btn btn-ghost btn-sm" id="loadDemo" type="button">⚡ Load demo profile</button>
+    </div>
+    <form id="profileForm" autocomplete="off">
+      <div class="grid">
+        <label class="field">
+          <span>Name (optional)</span>
+          <input type="text" name="name" placeholder="e.g. Aarav">
+        </label>
+        <label class="field">
+          <span>Class / Education level</span>
+          <select name="educationLevel">
+            <option value="Class 10">Class 10</option>
+            <option value="Class 11/12" selected>Class 11/12</option>
+            <option value="Diploma">Diploma</option>
+            <option value="Undergraduate">Undergraduate</option>
+            <option value="Graduate">Graduate</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Subjects</span>
+          <input type="text" name="subjects" placeholder="e.g. Maths, Physics, Computer Science">
+        </label>
+        <label class="field">
+          <span>Marks (percentage, approx.)</span>
+          <input type="number" name="marks" min="0" max="100" placeholder="e.g. 82">
+        </label>
+        <label class="field">
+          <span>Interests</span>
+          <input type="text" name="interests" placeholder="e.g. coding, gaming, business">
+        </label>
+        <label class="field">
+          <span>Skills</span>
+          <input type="text" name="skills" placeholder="e.g. Python basics, Excel">
+        </label>
+        <label class="field">
+          <span>Career interests (optional)</span>
+          <input type="text" name="careerInterests" placeholder="e.g. software engineer, data analyst">
+        </label>
+        <label class="field">
+          <span>Location (city / state)</span>
+          <input type="text" name="location" placeholder="e.g. Patna, Bihar">
+        </label>
+        <label class="field">
+          <span>Financial preference</span>
+          <select name="financialPreference">
+            <option value="Need scholarships/grants">Need scholarships / grants</option>
+            <option value="Budget conscious">Budget conscious</option>
+            <option value="No constraint" selected>No constraint</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Preferred education path</span>
+          <select name="preferredEducationPath">
+            <option value="Not sure" selected>Not sure yet</option>
+            <option value="University degree">University degree</option>
+            <option value="Diploma/ITI">Diploma / ITI</option>
+            <option value="Certification/online">Certification / online courses</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" type="submit" id="generateBtn">
+          <span id="generateLabel">Generate my career roadmap →</span>
+          <span class="spinner" id="spinner" hidden></span>
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ================= STEP 2 : RESULTS ================= -->
+  <section class="card" id="resultsSection" hidden>
+    <div class="card-head row-between">
+      <div>
+        <h2>Your career analysis</h2>
+        <p class="muted" id="resultMeta"></p>
+      </div>
+      <button class="btn btn-ghost btn-sm" id="editProfile" type="button">← Edit profile</button>
+    </div>
+
+    <h3 class="section-title">🎯 Recommended careers</h3>
+    <div class="cards" id="recommendations"></div>
+
+    <div id="detailSection" hidden>
+      <div class="detail-grid">
+        <div class="detail-col">
+          <h3 class="section-title">🧩 Skill gap analysis</h3>
+          <ul class="gap-list" id="skillGaps"></ul>
+        </div>
+        <div class="detail-col">
+          <h3 class="section-title">📈 Progress tracker</h3>
+          <div class="progress-box">
+            <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+            <p class="muted center" id="progressLabel">0 / 0 milestones done</p>
+          </div>
+          <p class="muted small">Tick milestones as you complete them — progress is saved on this device.</p>
+        </div>
+      </div>
+
+      <h3 class="section-title">🗺️ Your 3–5 year roadmap</h3>
+      <div class="timeline" id="roadmapYears"></div>
+
+      <div class="grid grid-3">
+        <div class="mini-card">
+          <h4>📚 Courses</h4>
+          <ul id="courses"></ul>
+        </div>
+        <div class="mini-card">
+          <h4>🎓 Certifications</h4>
+          <ul id="certs"></ul>
+        </div>
+        <div class="mini-card">
+          <h4>🏛️ Degree options</h4>
+          <ul id="degrees"></ul>
+        </div>
+      </div>
+
+      <div class="mini-card">
+        <h4>💰 Scholarships & funding</h4>
+        <ul id="scholarships"></ul>
+      </div>
+
+      <div class="match-note" id="matchNote"></div>
+    </div>
+  </section>
+
+  <!-- ================= STEP 3 : CHAT ================= -->
+  <section class="card" id="chatSection" hidden>
+    <div class="card-head">
+      <h2>💬 Ask about your career</h2>
+      <p class="muted">Answers are grounded in <em>your</em> profile — not generic ChatGPT replies.</p>
+    </div>
+    <div class="chat-log" id="chatLog"></div>
+    <form class="chat-input" id="chatForm">
+      <input type="text" id="chatMessage" placeholder='Try: "I like maths but don\'t want engineering. What options do I have?"' autocomplete="off">
+      <button class="btn btn-primary" type="submit">Send</button>
+    </form>
+    <div class="chat-suggestions">
+      <button class="chip" data-q="I'm a commerce student. Can I become a data analyst?">Commerce → data analyst?</button>
+      <button class="chip" data-q="I like mathematics but don't want engineering. What options do I have?">Maths, no engineering?</button>
+      <button class="chip" data-q="Which careers pay the most from my profile?">Best salaries?</button>
+      <button class="chip" data-q="How do I get scholarships for my path?">Scholarships?</button>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="muted small">AVENIR · Hackathon build · <span id="footerMode">DEMO_MODE offline engine</span> · AI layer plugs in via <code>ai_client.py</code></p>
+  </footer>
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
