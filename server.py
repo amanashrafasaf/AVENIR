@@ -142,8 +142,8 @@ class Handler(BaseHTTPRequestHandler):
 
 
 def main():
-    server = ThreadingHTTPServer(("127.0.0.1", PORT), Handler)
-    print(f"AVENIR running at http://127.0.0.1:{PORT}")
+    server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
+    print(f"AVENIR running at http://0.0.0.0:{PORT}")
     print(f"Mode: {MODE.upper()} "
           + ("(DEMO_MODE=1 forced)" if os.environ.get("DEMO_MODE") == "1" else
              "(no OPENAI_API_KEY, using offline mock)" if MODE == "mock" else "(AI connected)"))
