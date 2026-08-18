@@ -8,7 +8,6 @@ Serves the static frontend from ./static and exposes JSON endpoints:
 
 Run:  python server.py   (default http://127.0.0.1:8000, override with PORT)
 """
-
 import json
 import os
 import sys
