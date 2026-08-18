@@ -137,7 +137,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def log_message(self, fmt, *args):
         # quieter logs: only print API hits
-        if "/api/" in (args[0] if args else ""):
+        if "/api/" in (str(args[0]) if args else ""):
             super().log_message(fmt, *args)
 
 
