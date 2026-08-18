@@ -1,1 +1,7 @@
-
+supabase
+flask
+gunicorn
+fastapi
+uvicorn
+python-dotenv
+requests
